@@ -1,12 +1,14 @@
 import MovieCard from "../MovieCard/MovieCard";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 export default function ResultsBody(props) {
+  const movies = useSelector((state) => state.movies.list);
+
   return (
     <GridList cellHeight="auto" cols={3}>
-      {props.movies.map((movie) => (
+      {movies.map((movie) => (
         <GridListTile key={movie.title}>
           <MovieCard
             movieId={movie.id}
@@ -20,7 +22,3 @@ export default function ResultsBody(props) {
     </GridList>
   );
 }
-
-PropTypes.ResultsBody = {
-  movies: PropTypes.array.isRequired
-};

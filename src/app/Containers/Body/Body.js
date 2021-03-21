@@ -23,14 +23,16 @@ export default function Body(props) {
 
       <ErrorBoundary>
         <ResultsCount />
-        <ResultsBody movies={props.movies} />
+        <ResultsBody
+        // movies={props.movies}
+        />
       </ErrorBoundary>
     </>
   );
 }
 
 Body.propTypes = {
-  movies: PropTypes.array.isRequired,
+  // movies: PropTypes.array.isRequired,
   sortBy: PropTypes.oneOf(["releaseDate", "title"]),
   onChangeSortBy: PropTypes.func.isRequired
 };

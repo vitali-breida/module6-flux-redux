@@ -98,76 +98,73 @@ let mockedMovie = {
 };
 
 export default function App() {
-  const [movies, setMovies] = useState(predefinedMovies);
+  // const [movies, setMovies] = useState(predefinedMovies);
   const [sortBy, setSortBy] = useState("releaseDate");
 
   // add mocked element to array
   const addMovie = (e) => {
-    let newMovies = movies.slice();
-
-    mockedMovie.id = new Date().getTime();
-    newMovies.push(mockedMovie);
-
-    newMovies.sort((a, b) => {
-      return a[sortBy].localeCompare(b[sortBy]);
-    });
-
-    setMovies(newMovies);
+    // let newMovies = movies.slice();
+    // mockedMovie.id = new Date().getTime();
+    // newMovies.push(mockedMovie);
+    // newMovies.sort((a, b) => {
+    //   return a[sortBy].localeCompare(b[sortBy]);
+    // });
+    // setMovies(newMovies);
     //setAddMovieDialogVisible(false);
   };
 
   // Adds " updated" to the editable movie title
   const editMovie = (e) => {
-    let newMovies = movies.slice();
+    // let newMovies = movies.slice();
     // newMovies.filter((el) => {
     //   return el.id === editedMovieId;
     // })[0].title += " updated";
-
-    setMovies(newMovies);
+    // setMovies(newMovies);
     // setEditMovieDialogVisible(false);
     // setEditedMoviedId(null);
   };
 
   const deleteMovie = (e) => {
-    let newMovies = movies
-      .slice()
-      // .filter((el) => {
-      //   return el.id !== editedMovieId;
-      // })
-      .sort((a, b) => {
-        return a[sortBy].localeCompare(b[sortBy]);
-      });
-
-    setMovies(newMovies);
+    // let newMovies = movies
+    //   .slice()
+    // .filter((el) => {
+    //   return el.id !== editedMovieId;
+    // })
+    //   .sort((a, b) => {
+    //     return a[sortBy].localeCompare(b[sortBy]);
+    //   });
+    // setMovies(newMovies);
     // setDeleteMovieDialogVisible(false);
     // if (editedMovieId === selectedMovieId) {
     //   setSelectedMovieId(null);
     //   setMovieInfoMode(false);
     // }
-
     // setEditedMoviedId(null);
   };
 
   const handleSortBy = (e, newValue) => {
-    let newMovies = movies.slice();
-    newMovies.sort((a, b) => {
-      return a[newValue].localeCompare(b[newValue]);
-    });
-
-    setSortBy(newValue);
-    setMovies(newMovies);
+    // let newMovies = movies.slice();
+    // newMovies.sort((a, b) => {
+    //   return a[newValue].localeCompare(b[newValue]);
+    // });
+    // setSortBy(newValue);
+    // setMovies(newMovies);
   };
 
   const getMovieById = (id) => {
-    return movies.filter((el) => {
-      return el.id === id;
-    })[0];
+    // return movies.filter((el) => {
+    //   return el.id === id;
+    // })[0];
   };
 
   return (
     <>
       <Header onGetMovieById={getMovieById} />
-      <Body movies={movies} sortBy={sortBy} onChangeSortBy={handleSortBy} />
+      <Body
+        // movies={movies}
+        sortBy={sortBy}
+        onChangeSortBy={handleSortBy}
+      />
       <Footer />
 
       <AddMovieDialog onSubmit={addMovie} />
