@@ -2,7 +2,7 @@
 import Header from "./app/Containers/Header/Header";
 import Body from "./app/Containers/Body/Body";
 import Footer from "./app/Containers/Footer/Footer";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import AddMovieDialog from "./app/Components/AddMovieDialog/AddMovieDialog";
 import EditMovieDialog from "./app/Components/EditMovieDialog/EditMovieDialog";
 import DeleteMovieDialog from "./app/Components/DeleteMovieDialog/DeleteMovieDialog";
@@ -97,59 +97,11 @@ let mockedMovie = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 };
 
-/*debugger;
-fetch(
-  "http://localhost:4000/movies?sortBy=release_date&sortOrder=asc&offset=0&limit=6"
-)
-  .then((response) => response.json())
-  .then((data) => console.log(data));
-// .then((data) => (predefinedMovies = data; console.log("");));
-*/
-
 export default function App() {
-  //const [isAddMovieDialogVisible, setAddMovieDialogVisible] = useState(false);
-  const [isEditMovieDialogVisible, setEditMovieDialogVisible] = useState(false);
-  const [isDeleteMovieDialogVisible, setDeleteMovieDialogVisible] = useState(
-    false
-  );
-  const [editedMovieId, setEditedMoviedId] = useState(null);
   const [movies, setMovies] = useState(predefinedMovies);
   const [sortBy, setSortBy] = useState("releaseDate");
   const [isMovieInfoMode, setMovieInfoMode] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
-
-  const calcRecommended = useCallback(() => {
-    let selectedMovie = movies.find((el) => {
-      return el.id === selectedMovieId;
-    });
-
-    if (
-      !!selectedMovie &&
-      selectedMovie.genre.toLowerCase().indexOf("adventure") !== -1
-    ) {
-      console.log("Next recommended film is 'The Seven Samurai'");
-    }
-  }, [selectedMovieId, movies]);
-
-  const showEditMovieDialog = (e, id) => {
-    setEditedMoviedId(id);
-    setEditMovieDialogVisible(true);
-  };
-
-  const closeEditMovieDialog = (e) => {
-    setEditedMoviedId(null);
-    setEditMovieDialogVisible(false);
-  };
-
-  const showDeleteMovieDialog = (e, id) => {
-    setEditedMoviedId(id);
-    setDeleteMovieDialogVisible(true);
-  };
-
-  const closeDeleteMovieDialog = (e) => {
-    setEditedMoviedId(null);
-    setDeleteMovieDialogVisible(false);
-  };
 
   const showMovieDetails = (e, id) => {
     setMovieInfoMode(true);
@@ -174,33 +126,33 @@ export default function App() {
   // Adds " updated" to the editable movie title
   const editMovie = (e) => {
     let newMovies = movies.slice();
-    newMovies.filter((el) => {
-      return el.id === editedMovieId;
-    })[0].title += " updated";
+    // newMovies.filter((el) => {
+    //   return el.id === editedMovieId;
+    // })[0].title += " updated";
 
-    setMovies(movies);
-    setEditMovieDialogVisible(false);
-    setEditedMoviedId(null);
+    setMovies(newMovies);
+    // setEditMovieDialogVisible(false);
+    // setEditedMoviedId(null);
   };
 
   const deleteMovie = (e) => {
     let newMovies = movies
       .slice()
-      .filter((el) => {
-        return el.id !== editedMovieId;
-      })
+      // .filter((el) => {
+      //   return el.id !== editedMovieId;
+      // })
       .sort((a, b) => {
         return a[sortBy].localeCompare(b[sortBy]);
       });
 
     setMovies(newMovies);
-    setDeleteMovieDialogVisible(false);
-    if (editedMovieId === selectedMovieId) {
-      setSelectedMovieId(null);
-      setMovieInfoMode(false);
-    }
+    // setDeleteMovieDialogVisible(false);
+    // if (editedMovieId === selectedMovieId) {
+    //   setSelectedMovieId(null);
+    //   setMovieInfoMode(false);
+    // }
 
-    setEditedMoviedId(null);
+    // setEditedMoviedId(null);
   };
 
   const handleSortBy = (e, newValue) => {
@@ -231,14 +183,11 @@ export default function App() {
         onCancelInfoMode={cancelInfoMode}
         selectedMovieId={selectedMovieId}
         onGetMovieById={getMovieById}
-        onCalcRecommended={calcRecommended}
       />
       <Body
         movies={movies}
         sortBy={sortBy}
         onChangeSortBy={handleSortBy}
-        onEditMovie={showEditMovieDialog}
-        onDeleteMovie={showDeleteMovieDialog}
         isMovieInfoMode={isMovieInfoMode}
         onSetMovieInfoMode={showMovieDetails}
         selectedMovieId={selectedMovieId}
@@ -247,18 +196,8 @@ export default function App() {
       <Footer />
 
       <AddMovieDialog onSubmit={addMovie} />
-      <EditMovieDialog
-        movieId={editedMovieId}
-        show={isEditMovieDialogVisible}
-        onClose={closeEditMovieDialog}
-        onSubmit={editMovie}
-      />
-      <DeleteMovieDialog
-        movieId={editedMovieId}
-        show={isDeleteMovieDialogVisible}
-        onClose={closeDeleteMovieDialog}
-        onSubmit={deleteMovie}
-      />
+      <EditMovieDialog onSubmit={editMovie} />
+      <DeleteMovieDialog onSubmit={deleteMovie} />
     </>
   );
 }
