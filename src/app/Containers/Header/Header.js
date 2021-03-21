@@ -5,9 +5,17 @@ import MovieInfo from "../../Components/MovieInfo/MovieInfo";
 import Logo from "../../Components/Logo/Logo";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "../../Components/SearchIcon/SearchIcon";
+import { useSelector } from "react-redux";
+import {
+  selectIsMovieInfoMode,
+  selectSelectedMovieId
+} from "../../../features/dialogs/dialogsSlice";
 
 export default function Header(props) {
-  if (props.isMovieInfoMode) {
+  const isInfoMode = useSelector(selectIsMovieInfoMode);
+  const selectedMovieId = useSelector(selectSelectedMovieId);
+
+  if (isInfoMode) {
     return (
       <>
         <Grid container>
@@ -15,13 +23,12 @@ export default function Header(props) {
             <Logo />
           </Grid>
           <Grid item={2}>
-            <SearchIcon onCancelInfoMode={props.onCancelInfoMode} />
+            <SearchIcon />
           </Grid>
         </Grid>
         <MovieInfo
-          movieId={props.selectedMovieId}
+          movieId={selectedMovieId}
           onGetMovieById={props.onGetMovieById}
-          onCalcRecommended={props.onCalcRecommended}
         />
       </>
     );
@@ -29,17 +36,12 @@ export default function Header(props) {
     return (
       <>
         <Logo />
-        <AddMovieButton /*onAddMovie={props.onAddMovie} */ />
+        <AddMovieButton />
         <Search />
       </>
     );
 }
 
 Header.propTypes = {
-  //onAddMovie: PropTypes.func.isRequired,
-  isMovieInfoMode: PropTypes.bool.isRequired,
-  onCancelInfoMode: PropTypes.func.isRequired,
-  selectedMovieId: PropTypes.number,
-  onGetMovieById: PropTypes.func.isRequired,
-  onCalcRecommended: PropTypes.func.isRequired
+  onGetMovieById: PropTypes.func.isRequired
 };

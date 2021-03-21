@@ -7,16 +7,7 @@ import PropTypes from "prop-types";
 export default function MovieCard(props) {
   return (
     <>
-      <MovieImage
-        movieId={props.movieId}
-        imageUrl={props.imageUrl}
-        onEditMovie={props.onEditMovie}
-        onDeleteMovie={props.onDeleteMovie}
-        isMovieInfoMode={props.isMovieInfoMode}
-        onSetMovieInfoMode={props.onSetMovieInfoMode}
-        selectedMovieId={props.selectedMovieId}
-        onSetSelectedMovieId={props.onSetSelectedMovieId}
-      />
+      <MovieImage movieId={props.movieId} imageUrl={props.imageUrl} />
       <MovieTitle title={props.title} />
       <MovieGenre genre={props.genre} />
       <MovieReleaseDate releaseDate={props.releaseDate} />
@@ -29,13 +20,7 @@ MovieCard.propTypes = {
   title: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
-  releaseDate: PropTypes.string.isRequired,
-  onEditMovie: PropTypes.func.isRequired,
-  onDeleteMovie: PropTypes.func.isRequired,
-  isMovieInfoMode: PropTypes.bool.isRequired,
-  onSetMovieInfoMode: PropTypes.func.isRequired,
-  selectedMovieId: PropTypes.number,
-  onSetSelectedMovieId: PropTypes.func.isRequired
+  releaseDate: PropTypes.string.isRequired
 };
 
 MovieCard.defaultProps = {

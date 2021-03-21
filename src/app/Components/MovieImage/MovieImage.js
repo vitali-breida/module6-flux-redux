@@ -2,34 +2,45 @@ import React, { useState } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  dialogDeleteMovie,
+  dialogEditMovie,
+  infoMode,
+  selectIsMovieInfoMode,
+  selectSelectedMovieId
+} from "../../../features/dialogs/dialogsSlice";
 
 export default function MovieImage(props) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+  const isInfoMode = useSelector(selectIsMovieInfoMode);
+  const selectedMovieId = useSelector(selectSelectedMovieId);
 
-  const handleClick = (e) => {
-    if (!props.isMovieInfoMode) {
-      props.onSetMovieInfoMode(e, props.movieId);
-    } else {
-      if (props.movieId !== props.selectedMovieId) {
-        props.onSetSelectedMovieId(props.movieId);
-      } else {
-        setAnchorEl(e.currentTarget);
-      }
-    }
+  const showMenu = (e) => {
+    setAnchorEl(e.currentTarget);
   };
 
-  const handleClose = (e) => {
+  const closeMenu = (e) => {
     setAnchorEl(null);
   };
 
-  const handleEdit = (e) => {
-    props.onEditMovie(e, props.movieId);
-    handleClose(e);
+  const handleClick = (e) => {
+    if (!isInfoMode || props.movieId !== selectedMovieId) {
+      dispatch(infoMode({ mode: "on", id: props.movieId }));
+    } else {
+      showMenu(e);
+    }
   };
 
-  const handleDelete = (e) => {
-    props.onDeleteMovie(e, props.movieId);
-    handleClose(e);
+  const handleChooseEdit = (e) => {
+    dispatch(dialogEditMovie({ operation: "open", id: props.movieId }));
+    closeMenu(e);
+  };
+
+  const handleChooseDelete = (e) => {
+    dispatch(dialogDeleteMovie({ operation: "open", id: props.movieId }));
+    closeMenu(e);
   };
 
   return (
@@ -37,7 +48,6 @@ export default function MovieImage(props) {
       <img
         alt="Poster"
         src={props.imageUrl}
-        // width="50%"
         height="180"
         onClick={handleClick}
       />
@@ -46,10 +56,10 @@ export default function MovieImage(props) {
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={closeMenu}
       >
-        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        <MenuItem onClick={handleChooseEdit}>Edit</MenuItem>
+        <MenuItem onClick={handleChooseDelete}>Delete</MenuItem>
       </Menu>
     </>
   );
@@ -57,11 +67,5 @@ export default function MovieImage(props) {
 
 MovieImage.propTypes = {
   movieId: PropTypes.number.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  onEditMovie: PropTypes.func.isRequired,
-  onDeleteMovie: PropTypes.func.isRequired,
-  isMovieInfoMode: PropTypes.bool.isRequired,
-  onSetMovieInfoMode: PropTypes.func.isRequired,
-  selectedMovieId: PropTypes.number,
-  onSetSelectedMovieId: PropTypes.func.isRequired
+  imageUrl: PropTypes.string.isRequired
 };

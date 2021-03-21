@@ -7,16 +7,32 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
+import {
+  selectIsEditMovieDialogVisible,
+  selectEditedMovieId,
+  dialogEditMovie
+} from "../../../features/dialogs/dialogsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function EditMovieDialog(props) {
+  const isEditMovieDialogVisible = useSelector(selectIsEditMovieDialogVisible);
+  const editedMovieId = useSelector(selectEditedMovieId);
+  const dispatch = useDispatch();
+
+  const handleClose = (e) => {
+    dispatch(dialogEditMovie("close"));
+  };
+
   return (
     <div>
       <Dialog
-        open={props.show}
-        onClose={props.onClose}
+        open={isEditMovieDialogVisible}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">EDIT MOVIE</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          EDIT MOVIE {editedMovieId}
+        </DialogTitle>
         <DialogContent>
           <form autoComplete="off">
             <TextField
@@ -31,7 +47,6 @@ export default function EditMovieDialog(props) {
             <TextField
               margin="dense"
               id="date"
-              //label="Release Date"
               type="date"
               variant="outlined"
               fullWidth
@@ -78,7 +93,7 @@ export default function EditMovieDialog(props) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.onClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Reset
           </Button>
           <Button onClick={props.onSubmit} color="primary">
@@ -91,7 +106,5 @@ export default function EditMovieDialog(props) {
 }
 
 EditMovieDialog.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };

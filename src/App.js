@@ -100,13 +100,6 @@ let mockedMovie = {
 export default function App() {
   const [movies, setMovies] = useState(predefinedMovies);
   const [sortBy, setSortBy] = useState("releaseDate");
-  const [isMovieInfoMode, setMovieInfoMode] = useState(false);
-  const [selectedMovieId, setSelectedMovieId] = useState(null);
-
-  const showMovieDetails = (e, id) => {
-    setMovieInfoMode(true);
-    setSelectedMovieId(id);
-  };
 
   // add mocked element to array
   const addMovie = (e) => {
@@ -165,11 +158,6 @@ export default function App() {
     setMovies(newMovies);
   };
 
-  const cancelInfoMode = () => {
-    setMovieInfoMode(false);
-    setSelectedMovieId(null);
-  };
-
   const getMovieById = (id) => {
     return movies.filter((el) => {
       return el.id === id;
@@ -178,21 +166,8 @@ export default function App() {
 
   return (
     <>
-      <Header
-        isMovieInfoMode={isMovieInfoMode}
-        onCancelInfoMode={cancelInfoMode}
-        selectedMovieId={selectedMovieId}
-        onGetMovieById={getMovieById}
-      />
-      <Body
-        movies={movies}
-        sortBy={sortBy}
-        onChangeSortBy={handleSortBy}
-        isMovieInfoMode={isMovieInfoMode}
-        onSetMovieInfoMode={showMovieDetails}
-        selectedMovieId={selectedMovieId}
-        onSetSelectedMovieId={setSelectedMovieId}
-      />
+      <Header onGetMovieById={getMovieById} />
+      <Body movies={movies} sortBy={sortBy} onChangeSortBy={handleSortBy} />
       <Footer />
 
       <AddMovieDialog onSubmit={addMovie} />

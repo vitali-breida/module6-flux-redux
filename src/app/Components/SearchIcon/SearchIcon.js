@@ -1,10 +1,13 @@
-import PropTypes from "prop-types";
 import SearchIconMUI from "@material-ui/icons/Search";
+import { useDispatch } from "react-redux";
+import { infoMode } from "../../../features/dialogs/dialogsSlice";
 
 export default function SearchIcon(props) {
-  return <SearchIconMUI onClick={props.onCancelInfoMode}>search</SearchIconMUI>;
-}
+  const dispatch = useDispatch();
 
-SearchIcon.propType = {
-  onCancelInfoMode: PropTypes.func.isRequired
-};
+  return (
+    <SearchIconMUI onClick={(e) => dispatch(infoMode({ mode: "off" }))}>
+      search
+    </SearchIconMUI>
+  );
+}

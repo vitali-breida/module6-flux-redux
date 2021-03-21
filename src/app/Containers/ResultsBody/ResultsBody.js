@@ -14,12 +14,6 @@ export default function ResultsBody(props) {
             genre={movie.genre}
             releaseDate={movie.releaseDate}
             imageUrl={movie.imageUrl}
-            onEditMovie={props.onEditMovie}
-            onDeleteMovie={props.onDeleteMovie}
-            isMovieInfoMode={props.isMovieInfoMode}
-            onSetMovieInfoMode={props.onSetMovieInfoMode}
-            selectedMovieId={props.selectedMovieId}
-            onSetSelectedMovieId={props.onSetSelectedMovieId}
           />
         </GridListTile>
       ))}
@@ -28,11 +22,5 @@ export default function ResultsBody(props) {
 }
 
 PropTypes.ResultsBody = {
-  movies: PropTypes.array.isRequired,
-  onEditMovie: PropTypes.func.isRequired,
-  onDeleteMovie: PropTypes.func.isRequired,
-  isMovieInfoMode: PropTypes.bool.isRequired,
-  onSetMovieInfoMode: PropTypes.func.isRequired,
-  selectedMovieId: PropTypes.number,
-  onSetSelectedMovieId: PropTypes.func.isRequired
+  movies: PropTypes.array.isRequired
 };
