@@ -7,13 +7,25 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectIsAddMovieDialogVisible,
+  dialogAddMovie
+} from "../../../features/dialogs/dialogsSlice";
 
 export default function AddMovieDialog(props) {
+  const isAddMovieDialogVisible = useSelector(selectIsAddMovieDialogVisible);
+  const dispatch = useDispatch();
+
+  const handleClose = (e) => {
+    dispatch(dialogAddMovie("close"));
+  };
+
   return (
     <div>
       <Dialog
-        open={props.show}
-        onClose={props.onClose}
+        open={isAddMovieDialogVisible}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">ADD MOVIE</DialogTitle>
@@ -78,7 +90,7 @@ export default function AddMovieDialog(props) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.onClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Reset
           </Button>
           <Button onClick={props.onSubmit} color="primary">
@@ -91,7 +103,5 @@ export default function AddMovieDialog(props) {
 }
 
 AddMovieDialog.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };

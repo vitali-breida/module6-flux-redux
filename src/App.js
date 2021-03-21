@@ -97,8 +97,17 @@ let mockedMovie = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 };
 
+/*debugger;
+fetch(
+  "http://localhost:4000/movies?sortBy=release_date&sortOrder=asc&offset=0&limit=6"
+)
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+// .then((data) => (predefinedMovies = data; console.log("");));
+*/
+
 export default function App() {
-  const [isAddMovieDialogVisible, setAddMovieDialogVisible] = useState(false);
+  //const [isAddMovieDialogVisible, setAddMovieDialogVisible] = useState(false);
   const [isEditMovieDialogVisible, setEditMovieDialogVisible] = useState(false);
   const [isDeleteMovieDialogVisible, setDeleteMovieDialogVisible] = useState(
     false
@@ -121,14 +130,6 @@ export default function App() {
       console.log("Next recommended film is 'The Seven Samurai'");
     }
   }, [selectedMovieId, movies]);
-
-  const showAddMovieDialog = (e) => {
-    setAddMovieDialogVisible(true);
-  };
-
-  const closeAddMovieDialog = (e) => {
-    setAddMovieDialogVisible(false);
-  };
 
   const showEditMovieDialog = (e, id) => {
     setEditedMoviedId(id);
@@ -167,7 +168,7 @@ export default function App() {
     });
 
     setMovies(newMovies);
-    setAddMovieDialogVisible(false);
+    //setAddMovieDialogVisible(false);
   };
 
   // Adds " updated" to the editable movie title
@@ -226,7 +227,6 @@ export default function App() {
   return (
     <>
       <Header
-        onAddMovie={showAddMovieDialog}
         isMovieInfoMode={isMovieInfoMode}
         onCancelInfoMode={cancelInfoMode}
         selectedMovieId={selectedMovieId}
@@ -246,11 +246,7 @@ export default function App() {
       />
       <Footer />
 
-      <AddMovieDialog
-        show={isAddMovieDialogVisible}
-        onClose={closeAddMovieDialog}
-        onSubmit={addMovie}
-      />
+      <AddMovieDialog onSubmit={addMovie} />
       <EditMovieDialog
         movieId={editedMovieId}
         show={isEditMovieDialogVisible}

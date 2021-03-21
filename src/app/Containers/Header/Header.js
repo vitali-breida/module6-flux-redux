@@ -29,14 +29,14 @@ export default function Header(props) {
     return (
       <>
         <Logo />
-        <AddMovieButton onAddMovie={props.onAddMovie} />
+        <AddMovieButton /*onAddMovie={props.onAddMovie} */ />
         <Search />
       </>
     );
 }
 
 Header.propTypes = {
-  onAddMovie: PropTypes.func.isRequired,
+  //onAddMovie: PropTypes.func.isRequired,
   isMovieInfoMode: PropTypes.bool.isRequired,
   onCancelInfoMode: PropTypes.func.isRequired,
   selectedMovieId: PropTypes.number,
