@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// const initialState = [];
-
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
   const response = await fetch(
     "http://localhost:4000/movies?sortBy=release_date&sortOrder=asc&offset=0&limit=6"
@@ -23,6 +21,11 @@ export const moviesSlice = createSlice({
     }
   }
 });
-//export const { list } = moviesSlice.actions;
+
+// selectors
+export const selectSelectedMovie = (state) =>
+  state.movies.list.find((el) => {
+    return el.id === state.dialogs.selectedMovieId;
+  });
 
 export default moviesSlice.reducer;

@@ -9,7 +9,7 @@ export default function MovieCard(props) {
     <>
       <MovieImage movieId={props.movieId} imageUrl={props.imageUrl} />
       <MovieTitle title={props.title} />
-      <MovieGenre genre={props.genre} />
+      <MovieGenre genres={props.genres} />
       <MovieReleaseDate releaseDate={props.releaseDate} />
     </>
   );
@@ -18,7 +18,7 @@ export default function MovieCard(props) {
 MovieCard.propTypes = {
   movieId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
+  genres: PropTypes.array,
   imageUrl: PropTypes.string.isRequired,
   releaseDate: PropTypes.string.isRequired
 };

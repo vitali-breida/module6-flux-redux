@@ -1,26 +1,22 @@
 import { Grid } from "@material-ui/core";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { selectSelectedMovie } from "../../../features/movies/moviesSlice";
 
 export default function MovieInfo(props) {
-  const movie = props.onGetMovieById(props.movieId);
+  const movie = useSelector(selectSelectedMovie);
 
   return (
     <Grid container>
       <Grid item xs={2}>
-        <img alt="Poster" src={movie.imageUrl} height="180" />
+        <img alt="Poster" src={movie.poster_path} height="180" />
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={9}>
-        {movie.title} {movie.rating} <br />
-        {movie.genre} <br />
-        {movie.releaseDate} {movie.duration} <br />
-        {movie.description} <br />
+        {movie.title} {movie.vote_average} <br />
+        {movie.genres.join(" ")} <br />
+        {movie.release_date} {movie.runtime} <br />
+        {movie.overview} <br />
       </Grid>
     </Grid>
   );
 }
-
-MovieInfo.propTypes = {
-  movieId: PropTypes.number.isRequired,
-  onGetMovieById: PropTypes.func.isRequired
-};

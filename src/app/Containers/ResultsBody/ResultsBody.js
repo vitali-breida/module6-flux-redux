@@ -13,9 +13,9 @@ export default function ResultsBody(props) {
           <MovieCard
             movieId={movie.id}
             title={movie.title}
-            genre={movie.genre}
-            releaseDate={movie.releaseDate}
-            imageUrl={movie.imageUrl}
+            genres={movie.genres}
+            releaseDate={movie.release_date}
+            imageUrl={movie.poster_path}
           />
         </GridListTile>
       ))}

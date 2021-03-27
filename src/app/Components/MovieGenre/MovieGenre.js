@@ -1,3 +1,11 @@
+import PropTypes from "prop-types";
+
 export default function MovieGenre(props) {
-  return <div>{props.genre}</div>;
+  if (!!props.genres) {
+    return <div>{props.genres.join(" & ")}</div>;
+  } else return null;
 }
+
+MovieGenre.propTypes = {
+  genres: PropTypes.array
+};
