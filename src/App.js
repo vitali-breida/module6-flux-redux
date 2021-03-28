@@ -80,7 +80,7 @@ export default function App() {
       <Footer />
 
       <AddMovieDialog onSubmit={addMovie} />
-      <EditMovieDialog onSubmit={editMovie} />
+      <EditMovieDialog />
       <DeleteMovieDialog onSubmit={deleteMovie} />
     </>
   );

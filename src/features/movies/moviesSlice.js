@@ -8,6 +8,21 @@ export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
   return movies;
 });
 
+export const editMovie = createAsyncThunk(
+  "movies/editMovie",
+  async (payload) => {
+    const response = await fetch("http://localhost:4000/movies", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    const movie = response.json();
+    return movie;
+  }
+);
+
 export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
@@ -16,16 +31,29 @@ export const moviesSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchMovies.fulfilled]: (state, action) => {
-      console.log("action payload is ", action.payload);
+      // console.log("action payload is ", action.payload);
       state.list = action.payload.data;
+    },
+    [editMovie.fulfilled]: (state, action) => {
+      let index = state.list.findIndex((el) => {
+        return el.id === action.payload.id;
+      });
+      state.list[index] = action.payload;
+      // console.log("payload is ", action.payload);
     }
   }
 });
 
-// selectors
+// Returns selected movie from the state
 export const selectSelectedMovie = (state) =>
   state.movies.list.find((el) => {
     return el.id === state.dialogs.selectedMovieId;
+  });
+
+// Returns edited movie from the state
+export const selectEditedMovie = (state) =>
+  state.movies.list.find((el) => {
+    return el.id === state.dialogs.editedMovieId;
   });
 
 export default moviesSlice.reducer;
