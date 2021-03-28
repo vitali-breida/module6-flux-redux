@@ -35,8 +35,11 @@ export const editMovie = createAsyncThunk(
       },
       body: JSON.stringify(payload)
     });
-    const movie = response.json();
-    return movie;
+
+    const json = await response.json();
+    if (!!json.messages) {
+      throw new Error(json.messages);
+    } else return json;
   }
 );
 

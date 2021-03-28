@@ -44,26 +44,30 @@ export default function EditMovieDialog(props) {
     dispatch(dialogEditMovie("close"));
   }
 
-  const handleSubmit = (e) => {
-    const resultAction = dispatch(
-      editMovie({
-        id: movie.id,
-        tagline: movie.tagline,
-        vote_average: movie.vote_average,
-        vote_count: movie.vote_count,
-        budget: movie.budget,
-        revenue: movie.revenue,
-        genres: movie.genres,
+  const handleSubmit = async (e) => {
+    try {
+      const resultAction = await dispatch(
+        editMovie({
+          id: movie.id,
+          tagline: movie.tagline,
+          vote_average: movie.vote_average,
+          vote_count: movie.vote_count,
+          budget: movie.budget,
+          revenue: movie.revenue,
+          genres: movie.genres,
 
-        title: title,
-        release_date: releaseDate,
-        poster_path: posterPath,
-        overview: overview,
-        runtime: parseInt(runtime, 10)
-      })
-    );
-    unwrapResult(resultAction);
-    handleClose(e);
+          title: title,
+          release_date: releaseDate,
+          poster_path: posterPath,
+          overview: overview,
+          runtime: parseInt(runtime, 10)
+        })
+      );
+      unwrapResult(resultAction);
+      handleClose(e);
+    } catch (err) {
+      alert("Failed to edit a movie: " + err.message);
+    }
   };
 
   return (
