@@ -22,7 +22,6 @@ import { unwrapResult } from "@reduxjs/toolkit";
 export default function EditMovieDialog(props) {
   const isEditMovieDialogVisible = useSelector(selectIsEditMovieDialogVisible);
   const movie = useSelector(selectEditedMovie);
-  // console.log("edited movie", movie);
 
   const [title, setTitle] = useState("");
   const [posterPath, setPosterPath] = useState("");
@@ -46,7 +45,6 @@ export default function EditMovieDialog(props) {
   }
 
   const handleSubmit = (e) => {
-    console.log("Title is ", title);
     const resultAction = dispatch(
       editMovie({
         id: movie.id,

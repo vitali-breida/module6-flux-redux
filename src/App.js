@@ -35,17 +35,6 @@ export default function App() {
     //setAddMovieDialogVisible(false);
   };
 
-  // Adds " updated" to the editable movie title
-  const editMovie = (e) => {
-    // let newMovies = movies.slice();
-    // newMovies.filter((el) => {
-    //   return el.id === editedMovieId;
-    // })[0].title += " updated";
-    // setMovies(newMovies);
-    // setEditMovieDialogVisible(false);
-    // setEditedMoviedId(null);
-  };
-
   const deleteMovie = (e) => {
     // let newMovies = movies
     //   .slice()
@@ -81,7 +70,7 @@ export default function App() {
 
       <AddMovieDialog onSubmit={addMovie} />
       <EditMovieDialog />
-      <DeleteMovieDialog onSubmit={deleteMovie} />
+      <DeleteMovieDialog />
     </>
   );
 }

@@ -23,6 +23,16 @@ export const editMovie = createAsyncThunk(
   }
 );
 
+export const deleteMovie = createAsyncThunk(
+  "movies/deleteMovie",
+  async (movieId) => {
+    await fetch("http://localhost:4000/movies/" + movieId, {
+      method: "DELETE"
+    });
+    return movieId;
+  }
+);
+
 export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
@@ -31,7 +41,6 @@ export const moviesSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchMovies.fulfilled]: (state, action) => {
-      // console.log("action payload is ", action.payload);
       state.list = action.payload.data;
     },
     [editMovie.fulfilled]: (state, action) => {
@@ -39,7 +48,11 @@ export const moviesSlice = createSlice({
         return el.id === action.payload.id;
       });
       state.list[index] = action.payload;
-      // console.log("payload is ", action.payload);
+    },
+    [deleteMovie.fulfilled]: (state, action) => {
+      state.list = state.list.filter((el) => {
+        return el.id !== action.payload;
+      });
     }
   }
 });

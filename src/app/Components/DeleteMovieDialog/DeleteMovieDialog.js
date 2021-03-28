@@ -4,23 +4,30 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import PropTypes from "prop-types";
 import {
   selectIsDeleteMovieDialogVisible,
   selectEditedMovieId,
   dialogDeleteMovie
 } from "../../../features/dialogs/dialogsSlice";
+import { deleteMovie } from "../../../features/movies/moviesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export default function DeleteMovieDialog(props) {
   const isDeleteMovieDialogVisible = useSelector(
     selectIsDeleteMovieDialogVisible
   );
-  const editedMovieId = useSelector(selectEditedMovieId);
+  const movieId = useSelector(selectEditedMovieId);
   const dispatch = useDispatch();
 
   const handleClose = (e) => {
     dispatch(dialogDeleteMovie("close"));
+  };
+
+  const handleDelete = (e) => {
+    const resultAction = dispatch(deleteMovie(movieId));
+    unwrapResult(resultAction);
+    handleClose(e);
   };
 
   return (
@@ -30,14 +37,12 @@ export default function DeleteMovieDialog(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
-          DELETE MOVIE {editedMovieId}
-        </DialogTitle>
+        <DialogTitle id="form-dialog-title">DELETE MOVIE</DialogTitle>
         <DialogContent>
           Are you sure you want to delete this movie?
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.onSubmit} color="primary">
+          <Button onClick={handleDelete} color="primary">
             Confirm
           </Button>
         </DialogActions>
@@ -45,7 +50,3 @@ export default function DeleteMovieDialog(props) {
     </div>
   );
 }
-
-DeleteMovieDialog.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-};
