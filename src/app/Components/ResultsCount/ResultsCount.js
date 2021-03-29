@@ -1,7 +1,6 @@
-export default function ResultsCount(props) {
-  return <div>{props.count} movies found</div>;
-}
+import { useSelector } from "react-redux";
 
-ResultsCount.defaultProps = {
-  count: 39
-};
+export default function ResultsCount(props) {
+  const count = useSelector((state) => state.movies.totalCount);
+  return <div>{count} movies found</div>;
+}

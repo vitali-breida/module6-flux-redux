@@ -6,14 +6,26 @@ const serverUrl = "http://localhost:4000/movies";
 const sortByDefault = "vote_average";
 
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
-  let sortBy = store.getState().movies.sortBy;
+  let url = serverUrl;
+  let state = store.getState();
+
+  //sorting
+  let sortBy = state.movies.sortBy;
   if (!sortBy) {
     sortBy = sortByDefault;
   }
+  url += "?sortBy=" + sortBy + "&sortOrder=asc";
 
-  const response = await fetch(
-    serverUrl + "?sortBy=" + sortBy + "&sortOrder=asc&offset=0&limit=6"
-  );
+  //filtering
+  let filterBy = state.movies.filterBy;
+  if (filterBy.length > 0) {
+    url += "&filter=" + filterBy.join("%2C");
+  }
+
+  // pagination
+  url += "&offset=0&limit=6";
+
+  const response = await fetch(url);
   const movies = response.json();
   return movies;
 });
@@ -65,17 +77,33 @@ export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
     list: [],
-    sortBy: sortByDefault
+    sortBy: sortByDefault,
+    totalCount: 0,
+    filterBy: []
   },
   reducers: {
     sortMovies: (state, action) => {
       state.sortBy = action.payload;
+    },
+    filterMovies: (state, action) => {
+      let f = action.payload;
+
+      if (state.filterBy.includes(f)) {
+        state.filterBy = state.filterBy.filter((el) => {
+          return el !== f;
+        });
+      } else {
+        state.filterBy.push(f);
+      }
+    },
+    skipFiltering: (state, action) => {
+      state.filterBy = [];
     }
   },
   extraReducers: {
     [fetchMovies.fulfilled]: (state, action) => {
-      console.log(action.payload.data);
       state.list = action.payload.data;
+      state.totalCount = action.payload.totalAmount;
     },
     [addMovie.fulfilled]: (state, action) => {
       state.list.push(action.payload);
@@ -98,7 +126,7 @@ export const moviesSlice = createSlice({
 });
 
 // action creators
-export const { sortMovies } = moviesSlice.actions;
+export const { sortMovies, filterMovies, skipFiltering } = moviesSlice.actions;
 
 // Returns selected movie from the state
 export const selectSelectedMovie = (state) =>
