@@ -1,10 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import store from "../../app/store";
 
+//configuration
 const serverUrl = "http://localhost:4000/movies";
+const sortByDefault = "vote_average";
 
 export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
+  let sortBy = store.getState().movies.sortBy;
+  if (!sortBy) {
+    sortBy = sortByDefault;
+  }
+
   const response = await fetch(
-    serverUrl + "?sortBy=release_date&sortOrder=asc&offset=0&limit=6"
+    serverUrl + "?sortBy=" + sortBy + "&sortOrder=asc&offset=0&limit=6"
   );
   const movies = response.json();
   return movies;
@@ -56,9 +64,14 @@ export const deleteMovie = createAsyncThunk(
 export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
-    list: []
+    list: [],
+    sortBy: sortByDefault
   },
-  reducers: {},
+  reducers: {
+    sortMovies: (state, action) => {
+      state.sortBy = action.payload;
+    }
+  },
   extraReducers: {
     [fetchMovies.fulfilled]: (state, action) => {
       console.log(action.payload.data);
@@ -84,6 +97,9 @@ export const moviesSlice = createSlice({
   }
 });
 
+// action creators
+export const { sortMovies } = moviesSlice.actions;
+
 // Returns selected movie from the state
 export const selectSelectedMovie = (state) =>
   state.movies.list.find((el) => {
@@ -95,5 +111,7 @@ export const selectEditedMovie = (state) =>
   state.movies.list.find((el) => {
     return el.id === state.dialogs.editedMovieId;
   });
+
+export const selectSortBy = (state) => state.movies.selectSortBy;
 
 export default moviesSlice.reducer;

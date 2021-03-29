@@ -48,7 +48,7 @@ export default function MovieImage(props) {
       <img
         alt="Poster"
         src={props.imageUrl}
-        height="180"
+        height="300"
         onClick={handleClick}
       />
       <Menu

@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchMovies,
+  selectSortBy,
+  sortMovies
+} from "../../../features/movies/moviesSlice";
 
 export default function ResultsSort(props) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const sortBy = useSelector(selectSortBy);
+  const dispatch = useDispatch();
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -16,10 +23,8 @@ export default function ResultsSort(props) {
   };
 
   const handleSort = (e) => {
-    let sortBy = e.currentTarget.dataset["value"];
-    if (sortBy !== props.sortBy) {
-      props.onChangeSortBy(e, sortBy);
-    }
+    dispatch(sortMovies(e.currentTarget.dataset["value"]));
+    dispatch(fetchMovies());
     handleClose(e);
   };
 
@@ -32,20 +37,18 @@ export default function ResultsSort(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem data-value="releaseDate" onClick={handleSort}>
+        <MenuItem data-value="release_date" onClick={handleSort}>
           Release Date
         </MenuItem>
-        <MenuItem data-value="title" onClick={handleSort}>
-          Title
+        <MenuItem data-value="vote_average" onClick={handleSort}>
+          Rating
+        </MenuItem>
+        <MenuItem data-value="genres" onClick={handleSort}>
+          Genre
         </MenuItem>
       </Menu>
       <Button onClick={handleClick}>SortBy</Button>
-      <Button disabled>{props.sortBy}</Button>
+      <Button disabled>{sortBy}</Button>
     </>
   );
 }
-
-ResultsSort.propTypes = {
-  sortBy: PropTypes.oneOf(["releaseDate", "title"]),
-  onChangeSortBy: PropTypes.func.isRequired
-};
