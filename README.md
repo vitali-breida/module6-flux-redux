@@ -1,4 +1,4 @@
-# module5-hooks
+# module6 (Flux, Redux)
 
 - Forked from the https://github.com/vitali-breida/module5-hooks
 - Material UI is used
